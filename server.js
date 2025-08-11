@@ -13,10 +13,16 @@ const userRoutes = require("./server/routes/users");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Configurar trust proxy para Railway
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
+
 // Rate limiting
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 minutos
   max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100, // limite de requests por IP
+  trustProxy: process.env.NODE_ENV === "production",
 });
 
 // Middlewares de segurança
