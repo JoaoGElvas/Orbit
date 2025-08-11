@@ -1,0 +1,376 @@
+/* ==================== */
+/* MODAL AVANÇADO       */
+/* ==================== */
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.modal-content {
+    background: linear-gradient(145deg, rgba(15, 15, 30, 0.95) 0%, rgba(25, 25, 45, 0.9) 100%);
+    border: 2px solid rgba(0, 255, 255, 0.4);
+    border-radius: 20px;
+    padding: 0;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    animation: modalSlideIn 0.4s ease;
+}
+
+.modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #00ffff, #ff00ff, #00ffff);
+    animation: scan-modal 3s linear infinite;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes scan-modal {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2.5rem;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(20, 20, 40, 0.2) 100%);
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+    position: relative;
+}
+
+.modal-header h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
+    color: #00ffff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: #ff4444;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    line-height: 1;
+    font-weight: bold;
+}
+
+.modal-close:hover {
+    background: rgba(255, 68, 68, 0.2);
+    color: #ffffff;
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+}
+
+.modal-body {
+    padding: 2.5rem;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.modal-body .input-group {
+    margin-bottom: 2rem;
+}
+
+.modal-body .input-group:last-child {
+    margin-bottom: 0;
+}
+
+.modal-body label {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: #00ffff;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.modal-body input,
+.modal-body textarea,
+.modal-body select {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(0, 255, 255, 0.3);
+    border-radius: 12px;
+    color: #ffffff;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    resize: vertical;
+    min-height: 50px;
+}
+
+.modal-body input:focus,
+.modal-body textarea:focus,
+.modal-body select:focus {
+    outline: none;
+    border-color: #00ffff;
+    box-shadow: 
+        0 0 25px rgba(0, 255, 255, 0.4),
+        inset 0 0 15px rgba(0, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.7);
+    transform: scale(1.02);
+}
+
+.modal-body textarea {
+    min-height: 120px;
+    max-height: 200px;
+    line-height: 1.5;
+}
+
+.modal-body select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%2300ffff' viewBox='0 0 16 16'%3e%3cpath d='m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 16px;
+    padding-right: 3rem;
+}
+
+.modal-body select option {
+    background: #1a1a2e;
+    color: #ffffff;
+    padding: 0.75rem;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: flex-end;
+    padding: 2rem 2.5rem;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(20, 20, 40, 0.1) 100%);
+    border-top: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.modal-footer .btn {
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-width: 140px;
+}
+
+.modal-footer .btn-primary {
+    background: linear-gradient(45deg, rgba(0, 255, 255, 0.3), rgba(0, 200, 255, 0.2));
+    border: 2px solid #00ffff;
+    color: #ffffff;
+}
+
+.modal-footer .btn-primary:hover {
+    background: linear-gradient(45deg, rgba(0, 255, 255, 0.5), rgba(0, 200, 255, 0.3));
+    box-shadow: 
+        0 0 30px rgba(0, 255, 255, 0.6),
+        0 8px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+}
+
+.modal-footer .btn-secondary {
+    background: linear-gradient(45deg, rgba(128, 128, 128, 0.3), rgba(100, 100, 100, 0.2));
+    border: 2px solid #888888;
+    color: #ffffff;
+}
+
+.modal-footer .btn-secondary:hover {
+    background: linear-gradient(45deg, rgba(128, 128, 128, 0.5), rgba(100, 100, 100, 0.3));
+    box-shadow: 
+        0 0 25px rgba(128, 128, 128, 0.5),
+        0 8px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+    border-color: #aaaaaa;
+}
+
+/* Efeito de brilho nos botões do modal */
+.modal-footer .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.modal-footer .btn:hover::before {
+    left: 100%;
+}
+
+/* Loading state para o modal */
+.modal-body.loading {
+    opacity: 0.7;
+    pointer-events: none;
+    position: relative;
+}
+
+.modal-body.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 255, 255, 0.3);
+    border-top: 4px solid #00ffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Validação visual */
+.modal-body .input-group.error input,
+.modal-body .input-group.error textarea,
+.modal-body .input-group.error select {
+    border-color: #ff4444;
+    box-shadow: 0 0 20px rgba(255, 68, 68, 0.4);
+}
+
+.modal-body .input-group.error label {
+    color: #ff4444;
+}
+
+.modal-body .error-message {
+    color: #ff4444;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    padding-left: 0.75rem;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+/* Responsividade do modal */
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 1rem;
+        max-width: none;
+        border-radius: 15px;
+    }
+    
+    .modal-header {
+        padding: 1.5rem 2rem;
+    }
+    
+    .modal-header h3 {
+        font-size: 1.2rem;
+    }
+    
+    .modal-body {
+        padding: 2rem;
+    }
+    
+    .modal-footer {
+        padding: 1.5rem 2rem;
+        flex-direction: column-reverse;
+    }
+    
+    .modal-footer .btn {
+        width: 100%;
+        margin-bottom: 0.75rem;
+    }
+    
+    .modal-footer .btn:last-child {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal {
+        padding: 0.5rem;
+    }
+    
+    .modal-content {
+        margin: 0;
+        border-radius: 10px;
+    }
+    
+    .modal-header {
+        padding: 1.25rem 1.5rem;
+    }
+    
+    .modal-header h3 {
+        font-size: 1.1rem;
+    }
+    
+    .modal-body {
+        padding: 1.5rem;
+    }
+    
+    .modal-footer {
+        padding: 1.25rem 1.5rem;
+    }
+    
+    .modal-body input,
+    .modal-body textarea,
+    .modal-body select {
+        padding: 0.875rem 1rem;
+        font-size: 0.9rem;
+    }
+}

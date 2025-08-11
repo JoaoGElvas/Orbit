@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orbit - Acesso à Nave</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono:wght@400&family=Orbitron:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style-simple.css" />
+  </head>
+  <body class="login-page">
+    <!-- Fundo espacial animado -->
+    <div id="space-background">
+      <div class="stars"></div>
+      <div class="nebula"></div>
+    </div>
+
+    <div class="login-container">
+      <div class="login-panel">
+        <div class="panel-header">
+          <h1 class="orbit-logo">
+            <span class="orbit-text">ORBIT</span>
+            <span class="orbit-subtitle">Sistema de Navegação Pessoal</span>
+          </h1>
+        </div>
+
+        <div class="access-control">
+          <div class="control-tabs">
+            <button class="tab-btn active" data-tab="login">ACESSO</button>
+            <button class="tab-btn" data-tab="register">REGISTRO</button>
+          </div>
+
+          <!-- Login Form -->
+          <form id="login-form" class="auth-form active">
+            <div class="input-group">
+              <label for="login-username">IDENTIFICAÇÃO DO COMANDANTE</label>
+              <input type="text" id="login-username" name="username" required />
+              <div class="input-glow"></div>
+            </div>
+
+            <div class="input-group">
+              <label for="login-password">CÓDIGO DE ACESSO</label>
+              <input
+                type="password"
+                id="login-password"
+                name="password"
+                required
+              />
+              <div class="input-glow"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              <span>INICIAR SESSÃO</span>
+              <div class="btn-glow"></div>
+            </button>
+          </form>
+
+          <!-- Register Form -->
+          <form id="register-form" class="auth-form">
+            <div class="input-group">
+              <label for="register-username">NOME DO COMANDANTE</label>
+              <input
+                type="text"
+                id="register-username"
+                name="username"
+                required
+              />
+              <div class="input-glow"></div>
+            </div>
+
+            <div class="input-group">
+              <label for="register-email">CANAL DE COMUNICAÇÃO</label>
+              <input type="email" id="register-email" name="email" required />
+              <div class="input-glow"></div>
+            </div>
+
+            <div class="input-group">
+              <label for="register-password">CÓDIGO DE SEGURANÇA</label>
+              <input
+                type="password"
+                id="register-password"
+                name="password"
+                required
+                minlength="6"
+              />
+              <div class="input-glow"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              <span>REGISTRAR COMANDANTE</span>
+              <div class="btn-glow"></div>
+            </button>
+          </form>
+
+          <div id="message-display" class="message-hidden">
+            <span id="message-text"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="system-status">
+        <div class="status-indicator">
+          <span class="status-dot"></span>
+          <span>SISTEMAS OPERACIONAIS</span>
+        </div>
+        <div class="system-info">
+          <p>Orbit v1.0.0 - Sistema de Organização Pessoal</p>
+          <p>Desenvolvido para comandantes espaciais</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+  </body>
+</html>
