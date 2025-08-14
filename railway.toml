@@ -1,0 +1,11 @@
+# Railway Configuration File
+# Este arquivo configura o comportamento do deploy na Railway
+
+[build]
+  command = "npm run build"
+
+[deploy]
+  startCommand = "npm start"
+
+[env]
+  NODE_ENV = "production"

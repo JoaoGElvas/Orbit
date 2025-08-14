@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "build": "npm run db:migrate",
+    "railway:deploy": "npm run db:migrate && npm start",
     "setup-db": "node scripts/setup-database.js",
     "security-check": "./scripts/security-check.sh",
     "audit": "npm audit --audit-level=moderate",

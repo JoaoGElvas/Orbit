@@ -4,6 +4,7 @@ const session = require("express-session");
 const path = require("path");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+const initializeDatabase = require("./scripts/init-database");
 require("dotenv").config();
 
 // Importar rotas
@@ -113,8 +114,21 @@ app.use((req, res) => {
   });
 });
 
-// Iniciar servidor
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor Orbit rodando na porta ${PORT}`);
-  console.log(`🌌 Acesse: http://localhost:${PORT}`);
-});
+// Inicializar banco de dados e iniciar servidor
+async function startServer() {
+  try {
+    // Inicializar banco de dados
+    await initializeDatabase();
+    
+    // Iniciar servidor
+    app.listen(PORT, () => {
+      console.log(`🚀 Servidor Orbit rodando na porta ${PORT}`);
+      console.log(`🌌 Acesse: http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error('❌ Erro ao iniciar servidor:', error.message);
+    process.exit(1);
+  }
+}
+
+startServer();
