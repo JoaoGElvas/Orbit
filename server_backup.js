@@ -20,19 +20,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Middleware de segurança
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        scriptSrc: ["'self'", "'unsafe-inline'"],
-        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        connectSrc: ["'self'"],
-        imgSrc: ["'self'", "data:", "https:"],
-      },
-    },
-  })
-);
+app.use(helmet());
 
 // Rate limiting
 const limiter = rateLimit({

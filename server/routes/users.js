@@ -1,11 +1,11 @@
 const express = require("express");
-const { authenticateToken } = require("../middleware/auth");
+const { authenticateSession } = require("../middleware/auth");
 const User = require("../models/User");
 
 const router = express.Router();
 
 // Aplicar autenticação a todas as rotas
-router.use(authenticateToken);
+router.use(authenticateSession);
 
 // Obter dados do usuário
 router.get("/profile", async (req, res) => {

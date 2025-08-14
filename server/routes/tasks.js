@@ -1,11 +1,11 @@
 const express = require("express");
-const { authenticateToken } = require("../middleware/auth");
+const { authenticateSession } = require("../middleware/auth");
 const Task = require("../models/Task");
 
 const router = express.Router();
 
 // Aplicar autenticação a todas as rotas
-router.use(authenticateToken);
+router.use(authenticateSession);
 
 // Listar tarefas
 router.get("/", async (req, res) => {

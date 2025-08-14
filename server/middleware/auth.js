@@ -1,20 +1,18 @@
-const jwt = require("jsonwebtoken");
-
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1]; // Bearer TOKEN
-
-  if (!token) {
-    return res.status(401).json({ message: "Token de acesso requerido" });
+const authenticateSession = (req, res, next) => {
+  // Verificar se há sessão ativa
+  if (!req.session.userId) {
+    return res
+      .status(401)
+      .json({ message: "Sessão não encontrada. Faça login novamente." });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).json({ message: "Token inválido" });
-    }
-    req.user = user;
-    next();
-  });
+  // Adicionar dados do usuário ao request
+  req.user = {
+    userId: req.session.userId,
+    username: req.session.username,
+  };
+
+  next();
 };
 
-module.exports = { authenticateToken };
+module.exports = { authenticateSession };

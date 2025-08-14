@@ -1,7 +1,7 @@
 const express = require("express");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-
 const router = express.Router();
 
 // Registro
@@ -11,35 +11,44 @@ router.post("/register", async (req, res) => {
 
     // Validações básicas
     if (!username || !email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Todos os campos são obrigatórios" });
+      return res.status(400).json({
+        message: "Todos os campos são obrigatórios",
+      });
     }
 
     if (password.length < 6) {
-      return res
-        .status(400)
-        .json({ message: "Senha deve ter pelo menos 6 caracteres" });
+      return res.status(400).json({
+        message: "A senha deve ter pelo menos 6 caracteres",
+      });
     }
 
     // Verificar se usuário já existe
-    const existingUser = await User.findByUsername(username);
+    const existingUser = await User.findByEmail(email);
     if (existingUser) {
-      return res.status(400).json({ message: "Nome de usuário já existe" });
+      return res.status(400).json({
+        message: "Este email já está registrado no sistema orbital",
+      });
     }
 
-    const existingEmail = await User.findByEmail(email);
-    if (existingEmail) {
-      return res.status(400).json({ message: "Email já está em uso" });
+    // Verificar se username já existe
+    const existingUsername = await User.findByUsername(username);
+    if (existingUsername) {
+      return res.status(400).json({
+        message: "Este nome de comandante já está em uso",
+      });
     }
 
     // Criar usuário
     const user = await User.create(username, email, password);
 
+    // Configurar sessão
+    req.session.userId = user.id;
+    req.session.username = user.username;
+
     // Gerar token
     const token = jwt.sign(
       { userId: user.id, username: user.username },
-      process.env.JWT_SECRET,
+      "orbit-jwt-secret-key-2025",
       { expiresIn: "24h" }
     );
 
@@ -54,7 +63,9 @@ router.post("/register", async (req, res) => {
     });
   } catch (error) {
     console.error("Erro no registro:", error);
-    res.status(500).json({ message: "Erro interno do servidor" });
+    res.status(500).json({
+      message: "Erro interno do servidor orbital",
+    });
   }
 });
 
@@ -64,15 +75,17 @@ router.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-      return res
-        .status(400)
-        .json({ message: "Username e senha são obrigatórios" });
+      return res.status(400).json({
+        message: "Nome de usuário e senha são obrigatórios",
+      });
     }
 
     // Buscar usuário
     const user = await User.findByUsername(username);
     if (!user) {
-      return res.status(401).json({ message: "Credenciais inválidas" });
+      return res.status(401).json({
+        message: "Credenciais inválidas",
+      });
     }
 
     // Verificar senha
@@ -84,10 +97,14 @@ router.post("/login", async (req, res) => {
     // Atualizar última atividade
     await User.updateLastActivity(user.id);
 
+    // Configurar sessão
+    req.session.userId = user.id;
+    req.session.username = user.username;
+
     // Gerar token
     const token = jwt.sign(
       { userId: user.id, username: user.username },
-      process.env.JWT_SECRET,
+      "orbit-jwt-secret-key-2025",
       { expiresIn: "24h" }
     );
 
@@ -98,11 +115,14 @@ router.post("/login", async (req, res) => {
         id: user.id,
         username: user.username,
         email: user.email,
+        last_activity: user.last_activity,
       },
     });
   } catch (error) {
     console.error("Erro no login:", error);
-    res.status(500).json({ message: "Erro interno do servidor" });
+    res.status(500).json({
+      message: "Erro interno do servidor orbital",
+    });
   }
 });
 
@@ -118,7 +138,7 @@ router.get("/verify", async (req, res) => {
         .json({ valid: false, message: "Token não fornecido" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, "orbit-jwt-secret-key-2025");
     const user = await User.findById(decoded.userId);
 
     if (!user) {
@@ -136,15 +156,22 @@ router.get("/verify", async (req, res) => {
       },
     });
   } catch (error) {
-    if (error.name === "JsonWebTokenError") {
-      return res.status(401).json({ valid: false, message: "Token inválido" });
-    }
-    if (error.name === "TokenExpiredError") {
-      return res.status(401).json({ valid: false, message: "Token expirado" });
-    }
     console.error("Erro na verificação:", error);
-    res.status(500).json({ valid: false, message: "Erro interno do servidor" });
+    res.status(401).json({
+      valid: false,
+      message: "Token inválido",
+    });
   }
+});
+
+// Logout
+router.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ message: "Erro ao fazer logout" });
+    }
+    res.json({ message: "Logout realizado com sucesso" });
+  });
 });
 
 module.exports = router;
